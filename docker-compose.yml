@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  substrate-node:
+    build: .
+    image: substrate-node:latest
+    container_name: substrate-dev-node
+    ports:
+      - "9944:9944"  # WebSocket
+      - "9933:9933"  # HTTP RPC
+      - "30333:30333" # P2P
+      - "9615:9615"  # Prometheus metrics
+    volumes:
+      - substrate-data:/data
+    command: --dev --base-path /data --rpc-external --rpc-cors all --prometheus-external
+    restart: unless-stopped
+
+volumes:
+  substrate-data:
